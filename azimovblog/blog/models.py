@@ -6,10 +6,16 @@ from django.db import models
 User = get_user_model()
 
 
+class Pofile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
+
 class Category(models.Model):
     label = models.CharField(max_length=255, verbose_name='Название')
     description = models.CharField(max_length=2048, verbose_name="Описание")
     slug = models.SlugField(unique=True, verbose_name='Уникальное имя')
+    image = models.ImageField(upload_to='category', blank=True)
 
     class Meta:
         ordering = ['label']

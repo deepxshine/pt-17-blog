@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+
+<div class="container py-5 ">
+  <h1>Вход</h1>
+  <div class="row justify-content-center" style="border: 1px solid black; border-radius:12px; padding:15px; margin-bottom:10px">
+    {% if form.errors %} {# если форма содержит ошибки #}
+    {% for field in form %} {# цикл по полям в форме #}
+    {% for error in field.errors %} {# цикл по ошибкам в поле #}
+    <div class="alert alert-danger">
+      {{ error|escape }}
+    </div>
+    {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %} {# цикл по ошибкам вне поле #}
+    <div class="alert alert-danger">
+      {{ error|escape }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <form method="post" action="{% url 'user:login' %}">
+      {% csrf_token %}
+      {% for field in form %} {# цикл по полям в форме #}
+      <div class="form-group row my-3 ">
+        <label for="{{ field.id_for_label }}">
+          {{ field.label }}
+          {% if field.field.required %} {# если поле обязательно #}
+          <span class="required text-danger">*</span>
+          {% endif %}
+        </label>
+        {{ field }} {# само поле #}
+        {% if field.help_text %}
+        <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+          {{ field.help_text|safe }}
+        </small>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="col-md-6 offset-md-4">
+        <button type="submit" class="btn" style="background-color:#5976BF">
+          Войти
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+

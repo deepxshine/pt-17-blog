@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block title %} {{post.title}} {% endblock %}
+{% block content %}
+<div class="container py5">
+  <div style="border: 1px solid black; border-radius:12px; padding:15px; margin-bottom:10px">
+    <h5 style="margin-left:20px; font-size: 24px">{{ post.title }}</h5>
+    <ul>
+      <li style="list-style-type:none; color:gray;">
+        В категории <a href="#" style="color:gray"> {{ post.category }}</a>
+      </li>
+      <li style="list-style-type:none; color:gray;">
+        От автора <a href="#" style="color:gray">
+        {% if post.author.get_full_name %} {{ post.author.get_full_name }}
+        {% else %} {{ post.author }} {% endif %}
+      </a>
+      </li>
+      <li style="list-style-type:none;  color:gray;">
+        Дата публикации: {{ post.pubdate|date:"H:i  d F Y" }}
+      </li>
+    </ul>
+    {% thumbnail post.image "500x500" as im %}
+    <img src="{{ im.url }}">
+    {% endthumbnail %}
+    <p style="margin: 5px;text-align: justify; text-indent: 30px;">{{post.text}}</p>
+  </div>
+
+</div>
+{% endblock %}

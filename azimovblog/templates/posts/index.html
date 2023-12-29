@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} AzimovBlog {% endblock %}
+{% block content %}
+<div class="container py5">
+  <h1>Свежие записи</h1>
+  {% for post in posts %}
+  <div style="border: 1px solid black; border-radius:12px; padding:15px; margin-bottom:10px">
+    <h5 style="margin-left:20px; font-size: 24px">{{ post.title }}</h5>
+    <ul>
+      <li style="list-style-type:none; color:gray;">
+        В категории <a href="{% url 'blog:category_detail' post.category.slug %}" style="color:gray"> {{ post.category }}</a>
+      </li>
+      <li style="list-style-type:none; color:gray;">
+        От автора <a href="#" style="color:gray">
+        {% if post.author.get_full_name %} {{ post.author.get_full_name }}
+        {% else %} {{ post.author }} {% endif %}
+      </a>
+      </li>
+      <li style="list-style-type:none;  color:gray;">
+        Дата публикации: {{ post.pubdate|date:"H:i  d F Y" }}
+      </li>
+    </ul>
+    <p style="margin: 5px;text-align: justify; text-indent: 30px;">{{post.text|truncatewords:100}}</p>
+    <a href="{% url 'blog:post' post.id %}" style="color:black; margin: 5px; ">Читать далее</a>
+  </div>
+
+  {% endfor %}
+</div>
+{% endblock %}

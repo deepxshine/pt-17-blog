@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block title %} {% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    {% for category in categories %}
+    <div class="col">
+      <div class="card">
+        <div class="card-body" style="text-align:center;" >
+          {% thumbnail category.image "600x600" as im %}
+          <img src="{{im.url}}">
+          {% endthumbnail %}
+          <a href="#" class="card-link" style="color: black; "><h5 class="card-title">{{category}}</h5></a>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
