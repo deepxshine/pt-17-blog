@@ -6,9 +6,21 @@ from django.db import models
 User = get_user_model()
 
 
-class Pofile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,
+                                related_name='prof')
+    image = models.ImageField(upload_to='profiles', blank=True)
+    birthday = models.DateField(blank=True)
+    status = models.CharField(max_length=255, blank=True)
+    description = models.CharField(max_length=1000, blank=True)
+    banner = models.ImageField(upload_to='banners', blank=True)
 
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
+    def __str__(self):
+        return str(self.user)
 
 
 class Category(models.Model):
@@ -68,3 +80,10 @@ class Comments(models.Model):
     class Meta:
         verbose_name = 'Комментарии'
         verbose_name_plural = 'Комментарии'
+
+
+class Follow(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='flwr') # кто подписан
+    following = models.ForeignKey(User, on_delete=models.CASCADE,
+                                  related_name='flng') # на кого

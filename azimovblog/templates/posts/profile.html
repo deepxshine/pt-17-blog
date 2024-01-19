@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}
+
+{% if user.get_full_name %} {{ user.get_full_name }}
+{% else %} {{ user.username }} {% endif %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    Шапка
+  </div>
+  <div class="row">
+    <div class="col">
+      {% if profile.image %}
+      {% thumbnail profile.image "500" as im %}
+      <img src="{{im.url}}">
+      {% endthumbnail %}
+      {% else %}
+      <img src="{% static 'img/ava.png' %}" height="500" width="500">
+      {% endif %}
+    </div>
+    <div class="col">
+      <div class="py-5">
+        <h2>{% if user.get_full_name %} {{ user.get_full_name }}
+          {% else %} {{ user.username }} {% endif %} </h2>
+        {% if profile.status %}
+        <small class="text-muted">{{profile.status}}</small>
+        {% endif %}
+        <div style="margin-top:10px">
+          <h5>Информация о пользователе</h5>
+          <ul>
+            {% if user.email %}
+            <li>Почта: {{user.email}}</li>
+            {% endif %}
+            {% if profile.birthday %}
+            <li>Дата рождения {{profile.birthday}}</li>
+            {% endif %}
+            <li>Количество подписчиков: </li>
+          </ul>
+        </div>
+        {% if profile.description %}
+        <div>
+          <p>{{profile.description}}</p>
+        </div>
+        {% endif %}
+      </div>
+      <a class="btn" type="button" style="background-color:#4287f5; color:#fff">Редактировать профиль</a>
+      <a class="btn" type="button" style="background-color:#4287f5; color:#fff">Подписаться</a>
+    </div>
+  </div>
+
+  <div class="py-5">
+    посты
+  </div>
+</div>
+{% endblock %}

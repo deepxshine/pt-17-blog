@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView
 
-from .models import Post, Category
+from .models import Post, Category, User, Profile
 
 
 # Create your views here.
@@ -32,4 +32,16 @@ class CategoryDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CategoryDetail, self).get_context_data(**kwargs)
         context['posts'] = Post.objects.filter(category=context['category'])
+        return context
+
+
+class ProfileDetail(DetailView):
+    model = User
+    template_name = 'posts/profile.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetail, self).get_context_data(**kwargs)
+        context['profile'] = Profile.objects.filter(
+            user=context['user']).first()
         return context
