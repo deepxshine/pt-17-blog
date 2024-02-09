@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block title %} {{post.title}} {% endblock %}
+{% block content %}
+<div class="container py5">
+  {% for item in author %}
+  <div class="card border-dark mb-3">
+    <h5 class="card-header" >
+      <a href="{% url 'blog:profile' item.author.id %}" style="text-decoration: none; color:black">
+        {{ item.author }}
+      </a>
+    </h5>
+
+    {% thumbnail item.author.prof.image "1000x1000" as im %}
+    <img src="{{ im.url }}">
+    {% endthumbnail %}
+    <a class="btn" type="button" style="background-color:#999; color:#000"
+       href="{% url 'blog:unfollow' item.author.id %}">>Отписаться</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

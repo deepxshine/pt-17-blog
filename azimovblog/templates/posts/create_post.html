@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Создание поста{% endblock %}
+{% block content %}
+<h1>Вход</h1>
+<div class="row justify-content-center"
+     style="border: 1px solid black; border-radius:12px; padding:15px; margin-bottom:10px">
+  {% include 'includes/form_errors.html' %}
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit">Создать пост</button>
+  </form>
+</div>
+{% endblock %}

@@ -25,21 +25,24 @@
     </div>
     <div class="col">
       <div class="py-5">
-        <h2>{% if user.get_full_name %} {{ user.get_full_name }}
-          {% else %} {{ user.username }} {% endif %} </h2>
+        <h2>{% if author.get_full_name %} {{ author.get_full_name }}
+          {% else %} {{ author.username }} {% endif %} </h2>
         {% if profile.status %}
         <small class="text-muted">{{profile.status}}</small>
         {% endif %}
         <div style="margin-top:10px">
           <h5>Информация о пользователе</h5>
           <ul>
-            {% if user.email %}
+            {% if author.email %}
             <li>Почта: {{user.email}}</li>
             {% endif %}
             {% if profile.birthday %}
             <li>Дата рождения {{profile.birthday}}</li>
             {% endif %}
             <li>Количество подписчиков: </li>
+            <li>Количество лайков: {{likes}} </li>
+            <li>Количество подписчиков: {{ followers_count }} </li>
+            <li>Количество постов: {{ posts|length }} </li>
           </ul>
         </div>
         {% if profile.description %}
@@ -48,13 +51,31 @@
         </div>
         {% endif %}
       </div>
+
+      {% if author == user %}
       <a class="btn" type="button" style="background-color:#4287f5; color:#fff">Редактировать профиль</a>
-      <a class="btn" type="button" style="background-color:#4287f5; color:#fff">Подписаться</a>
+      {% endif %}
+
+      {% if author != user %}
+      {% if is_follow %}
+      <a class="btn" type="button" style="background-color:#4287f5; color:#fff" href="{% url 'blog:unfollow' author.id %}">
+        Отписаться</a>
+      {% else %}
+      <a class="btn" type="button" style="background-color:#4287f5; color:#fff" href="{% url 'blog:follow' author.id %}">
+        Подписаться</a>
+      {% endif %}
+      {% endif %}
     </div>
   </div>
 
   <div class="py-5">
-    посты
+    {% include 'includes/post.html' %}
   </div>
 </div>
 {% endblock %}
+
+
+context = {
+  'posts': posts,
+  'user': user,
+}

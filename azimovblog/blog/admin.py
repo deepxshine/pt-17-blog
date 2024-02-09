@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Post, Comments, Likes, Category, Profile
+from .models import Post, Comments, Likes, Category, Profile, Follow
 
 
 @admin.register(Post)
@@ -49,4 +49,8 @@ class CommentsAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Follow)
+class FollowAdmin(admin.ModelAdmin):
     pass

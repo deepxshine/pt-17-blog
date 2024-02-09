@@ -1,0 +1,14 @@
+{% if form.errors %} {# если форма содержит ошибки #}
+{% for field in form %} {# цикл по полям в форме #}
+{% for error in field.errors %} {# цикл по ошибкам в поле #}
+<div class="alert alert-danger">
+  {{ error|escape }}
+</div>
+{% endfor %}
+{% endfor %}
+{% for error in form.non_field_errors %} {# цикл по ошибкам вне поле #}
+<div class="alert alert-danger">
+  {{ error|escape }}
+</div>
+{% endfor %}
+{% endif %}

@@ -84,6 +84,6 @@ class Comments(models.Model):
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE,
-                                 related_name='flwr') # кто подписан
-    following = models.ForeignKey(User, on_delete=models.CASCADE,
-                                  related_name='flng') # на кого
+                                 related_name='flwr')  # кто подписан
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                                  related_name='fl_author')  # на кого

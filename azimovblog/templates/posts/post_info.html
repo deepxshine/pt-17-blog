@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load thumbnail %}
 {% block title %} {{post.title}} {% endblock %}
 {% block content %}
@@ -7,16 +8,18 @@
     <h5 style="margin-left:20px; font-size: 24px">{{ post.title }}</h5>
     <ul>
       <li style="list-style-type:none; color:gray;">
-        В категории <a href="#" style="color:gray"> {{ post.category }}</a>
+        В категории <a href="{% url 'blog:category_detail' post.category.slug %}" style="color:gray">
+        {{ post.category}}
+      </a>
       </li>
       <li style="list-style-type:none; color:gray;">
-        От автора <a href="#" style="color:gray">
+        От автора <a href="{% url 'blog:profile' post.author.id %}" style="color:gray">
         {% if post.author.get_full_name %} {{ post.author.get_full_name }}
         {% else %} {{ post.author }} {% endif %}
       </a>
       </li>
       <li style="list-style-type:none;  color:gray;">
-        Дата публикации: {{ post.pubdate|date:"H:i  d F Y" }}
+        Дата публикации: {{ post.pubdate|date:"H:i d F Y" }}
       </li>
     </ul>
     {% thumbnail post.image "500x500" as im %}
@@ -24,6 +27,57 @@
     {% endthumbnail %}
     <p style="margin: 5px;text-align: justify; text-indent: 30px;">{{post.text}}</p>
   </div>
+  <div class="row">
+    <p><a href="{% if like == True %} {% url 'blog:dislike' post.id %}
+    {% else %} {% url 'blog:like' post.id %} {% endif %}">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="50" height="50" viewBox="0 0 400 400"
+           xml:space="preserve">
+      <desc>Created with Fabric.js 3.6.2</desc>
+        <defs>
+      </defs>
+        <g transform="matrix(4.18 0 0 4.18 200 200)" id="Fill-18">
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0;
+          stroke-linejoin: miter; stroke-miterlimit: 4;
+          {% if like == True %}
+          fill: rgb(255,0,0);
+          {% else %}
+          fill: rgb(0,0,0);
+          {% endif %}
+           fill-rule: nonzero; opacity: 1;"
+              transform=" translate(146, 198)"
+              d="M -146 -177.1 l -0.8 -0.7 c -18.2 -14.8 -23.1 -20 -23.1 -28.5 c 0 -7 5.7 -12.6 12.6 -12.6 c 5.8 0 9.1 3.3
+      11.3 5.8 c 2.2 -2.5 5.5 -5.8 11.3 -5.8 c 7 0 12.6 5.7 12.6 12.6 c 0 8.5 -4.9 13.7 -23.1 28.5 L -146 -177.1 L -146
+      -177.1 z M -157.3 -216.3 c -5.5 0 -10 4.5 -10 10 c 0 7.3 4.6 12.1 21.3 25.8 c 16.7 -13.7 21.3 -18.5 21.3 -25.8 c
+      0 -5.5 -4.5 -10 -10 -10 c -5 0 -7.7 3 -9.8 5.4 l -1.5 1.7 l -1.5 -1.7 C -149.6 -213.3 -152.3 -216.3 -157.3 -216.3
+      L -157.3 -216.3 z"
+              stroke-linecap="round"/>
+      </g>
+    </svg>
+    </a> {{ like_count }}
+    </p>
+  </div>
 
+  <div style="border: 1px solid black; border-radius:12px; padding:15px; margin-bottom:10px">
+    {% include 'includes/form_errors.html' %}
+    <h3>Оставить комментарий</h3>
+    <form method="post" action="{% url 'blog:create_comment' post.id %}">
+      {% csrf_token %}
+      {% include 'includes/form.html' %}
+      <button type="submit">Отправить</button>
+    </form>
+  </div>
+
+
+  <div style="border: 1px solid black; border-radius:12px; padding:15px; margin-bottom:10px">
+    <h4>Комментарии</h4>
+    {% for comment in comments %}
+    <div>
+      <h5>{{ comment.user.username }}</h5>
+      <p>{{ comment.text }}</p>
+    </div>
+
+    {% endfor %}
+
+  </div>
 </div>
 {% endblock %}
