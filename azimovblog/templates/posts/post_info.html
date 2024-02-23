@@ -22,6 +22,15 @@
         Дата публикации: {{ post.pubdate|date:"H:i d F Y" }}
       </li>
     </ul>
+    {% if user == post.author %}
+    <div class="container">
+
+        <a href="{% url 'blog:update' post.id %}" class="btn btn-primary" style="padding: 10px; margin:8px">Редактировать</a>
+
+        <a href="{% url 'blog:delete' post.id %}" class="btn btn-danger" style="padding: 10px 35px; margin:8px">Удалить</a>
+
+    </div>
+    {% endif %}
     {% thumbnail post.image "500x500" as im %}
     <img src="{{ im.url }}">
     {% endthumbnail %}

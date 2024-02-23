@@ -13,7 +13,7 @@
               авторы</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" style="color:#ffffff">Избранное</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'blog:likes' %}" style="color:#ffffff">Избранное</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'blog:create_post' %}" style="color:#ffffff">Создать пост</a>
@@ -37,8 +37,8 @@
             </div>
           </li>
 
-          <form class="d-flex" style="margin-left: 10px">
-            <input class="form-control mr-2" type="search" placeholder="Поиск" aria-label="Поиск">
+          <form class="d-flex" style="margin-left: 10px" method="get" action="{% url 'blog:search' %}">
+            <input class="form-control mr-2" type="search" placeholder="Поиск" aria-label="Поиск" name="text">
             <button class="btn btn-light" type="submit" style="margin-left:2px">Поиск</button>
           </form>
         </ul>

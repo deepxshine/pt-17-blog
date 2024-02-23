@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %}Не найдена{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row" style="border: solid black 1px; border-radius:10; padding:10px; text-align: center">
+    <h2>403 Forbidden</h2>
+    <span>У вас недостаточно прав к этой странице</span>
+     <a class="btn btn-primary" href="{% url 'blog:index' %}">Вернуться на главную</a>
+  </div>
+</div>
+{% endblock %}
